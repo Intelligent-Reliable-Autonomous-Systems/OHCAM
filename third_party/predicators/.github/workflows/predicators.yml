@@ -1,0 +1,134 @@
+name: predicators
+
+on: [push]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.14"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: '**/setup.py'
+    - run: |
+        pip install -e .
+        pip install pytest-cov==2.12.1
+    - name: Pytest
+      run: |
+        pytest -s tests/ --cov-config=.coveragerc --cov=predicators/ --cov=tests/ --cov-fail-under=100 --cov-report=term-missing:skip-covered
+      env:
+        PYTHONHASHSEED: 0
+  static-type-checking:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.14"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: '**/setup.py'
+    - name: Install dependencies
+      run: |
+        pip install -e .
+        pip install mypy==1.8.0
+    - name: Mypy
+      run: |
+        mypy . --config-file mypy.ini
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.14"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: '**/setup.py'
+    - name: Install dependencies
+      run: |
+        pip install -e .
+        pip install pytest-pylint==0.18.0
+    - name: Pylint
+      run: |
+        pytest . --pylint -m pylint --pylint-rcfile=.predicators_pylintrc
+      env:
+        PYTHONHASHSEED: 0
+  yapf:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.14"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: '**/setup.py'
+    - name: Install dependencies
+      run: |
+        pip install yapf==0.32.0
+    - name: Run yapf to detect any autoformatting changes
+      run: |
+        yapf --diff -r --style .style.yapf --exclude '**/third_party' predicators
+        yapf --diff -r --style .style.yapf scripts
+        yapf --diff -r --style .style.yapf tests
+        yapf --diff -r --style .style.yapf setup.py
+      env:
+        PYTHONHASHSEED: 0
+  isort:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.14"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: '**/setup.py'
+    - name: Install dependencies
+      run: |
+        pip install isort==5.10.1
+    - name: Run isort to detect any changes
+      run: |
+        isort --check-only .
+      env:
+        PYTHONHASHSEED: 0
+  docformatter:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10.14"]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+        cache-dependency-path: '**/setup.py'
+    - name: Install dependencies
+      run: |
+        pip install docformatter==1.4
+    - name: Run docformatter to detect any autoformatting changes
+      run: |
+        docformatter --check -r . --exclude venv predicators/third_party
+      env:
+        PYTHONHASHSEED: 0

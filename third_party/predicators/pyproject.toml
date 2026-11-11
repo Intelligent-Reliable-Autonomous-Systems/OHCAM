@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "predicators"
+version = "0.1.1"
+dependencies = [
+    "numpy",
+    "pytest",
+    "mypy==1.8.0",
+    "gym",
+    "matplotlib",
+    "imageio",
+    "imageio-ffmpeg",
+    "pandas",
+    "torch",
+    "scipy",
+    "tabulate",
+    "dill",
+    "pyperplan",
+    "pathos",
+    "pillow",
+    "pybullet>=3.2.0",
+    "scikit-learn",
+    "graphlib-backport",
+    "pylint",
+    "seaborn",
+    "gym_sokoban@git+https://github.com/Learning-and-Intelligent-Systems/gym-sokoban.git",
+]
+
+[project.optional-dependencies]
+develop = [
+    "pytest-cov==2.12.1",
+    "pytest-pylint==0.18.0",
+    "yapf==0.32.0",
+    "docformatter==1.4",
+    "isort==5.10.1",
+    "mypy-extensions==1.0.0",
+]
+lisdf = [
+    "lisdf"
+]
+llm = [
+    "openai",
+    "google-generativeai",
+    "tenacity",
+    "ImageHash",
+
+]
+sme-pg3 = [
+    "smepy@git+https://github.cructure_mapping.git",
+    "pg3@git+https://github.com/tomsilver/pg3.git",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["predicators", "predicators.*"]

@@ -1,0 +1,58 @@
+{
+    "experiment_prefix": "maintenance",
+    "initial_domain": "./maintenance-empty.domain.pddl",
+    "gt_domain": "./maintenance.domain.pddl",
+    "train_problems": [
+        "./problems/train0",
+        "./problems/train1",
+        "./problems/train2",
+        "./problems/train3",
+        "./problems/train4"
+    ],
+    "eval_problems": [
+        "./problems/eval"
+    ],
+    "train_traces": [
+        "./problems/traces/train0",
+        "./problems/traces/train1",
+        "./problems/traces/train2",
+        "./problems/traces/train3",
+        "./problems/traces/train4"
+    ],
+    "eval_traces": [
+        "./problems/traces/eval"
+    ],
+    "max_steps": 100,
+    "approaches": {
+        "ohcam": {
+            "online": true,
+            "config": {},
+            "offline_config": {
+                "combine_preconditions": true
+            }
+        },
+        "random": {
+            "online": true
+        },
+        "olam": {
+            "online": true
+        },
+        "glib": {
+            "online": true
+        },
+        "conditional-sam": {
+            "uqv": {
+                "workat": [
+                    "plane"
+                ]
+            }
+        },
+        "predicators": {},
+        "lamp": {
+            "threshold": 0.5
+        },
+        "lamp2": {
+            "threshold": 0.5
+        }
+    }
+}

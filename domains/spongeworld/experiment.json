@@ -1,0 +1,34 @@
+{
+    "experiment_prefix": "spongeworld",
+    "initial_domain": "./simple-sponge.domain.pddl",
+    "gt_domain": "./conditional-sponge.domain.pddl",
+    "train_problems": [
+        "./problems/train"
+    ],
+    "eval_problems": [
+        "./problems/eval"
+    ],
+    "max_steps": 250,
+    "fixed_preconditions": true,
+    "approaches": {
+        "ohcam": {
+            "online": true,
+            "config": {
+                "noise": 0.1,
+                "max_hypotheses": 10000,
+                "enforce_inequality": true
+            }
+        },
+        "random": {
+            "online": true
+        },
+        "olam": {
+            "online": true
+        },
+        "conditional-sam": {},
+        "predicators": {},
+        "lamp": {
+            "threshold": 0.5
+        }
+    }
+}

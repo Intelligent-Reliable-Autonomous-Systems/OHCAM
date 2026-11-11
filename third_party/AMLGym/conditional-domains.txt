@@ -1,0 +1,59 @@
+These are some notes on domains with conditional effects + quantified variables.
+x is the parameters of action(x)
+3*(x,y) indicates that there are 3 conjunctive terms in the condition, parameterized by the x and quantified variable y
+
+-----------------
+satellite
+- when (x) -> (x) [trivial condition; got compiled out in pddl_generator]
+briefcase
+- forall y when 1*(y) -> (x,y)
+citycar
+- forall y when 1*(x,y) -> (x,y)
+maintenance
+- forall y when (x,y) -> (y)
+miconic-simpleadl
+- forall y when 2*(x,y) -> (y)
+nurikabe
+- forall y when 2*(x,y) -> (y)
+- forall y when 2*(x,y) -> (x,y)
+
+
+schedule
+- when 1*(x) -> (x) [trivial condition]
+- forall y when 1*(x,y) -> (x,y) [trivial condition]
+- forall y,z when 1*(x,y,z) -> (x,y,z) [trivial condition]
+- forall y when 1*(y) -> (y) [trivial condition]
+spider
+- when 1*(x) -> (x)
+- when 1*(x) -> ()
+spider-axioms
+- derived: not-exists y when (x,y)
+- derived: exists y when (x,y)
+- forall y when 1*(x,y) -> (y)
+- forall y,z,w when 3*(x,y,z,w) -> (x,y)
+- forall y,z when 2*([x,y]-[y,z]) -> (y,z)
+- forall y,z when 2*([x,y]-[y,z]) -> (y,constant)
+
+trucks
+> forall y ((x,y) implies (x,y))
+    > not-exists y when (x,y)
+fridge
+> exists y,z when 3*([x,y],[y,z])
+> exists y when (x,y) + not-exists z when (y,z)
+miconic-fulladl
+> conflict-a/conflict-b: stupidly hard preconditions
+> never-alone/attendant: stupidly hard preconditions
+> going_nonstop: not-exists y when (x,y)
+> no-access: not-exists y when (x,y)
+> vip: (not-exists y when (y)) or (exists y when (x,y)) or (exists y when (x,y))
+> not-exists y when
+- forall y when 2*(x,y) -> (y)
+cave-diving-adl
+- forall y when 1*(x,y) -> (y)
+assembly: (extremely challenging)
+> forall y ((x,y) implies (x,y))
+    > not-exists y when (x,y) [equivalent form]
+> (x) or (x)
+> ((x) and (forall y ((x,y) implies (x,y))) or ((x) and (not-exists y when 2*(x,y))
+    > ((x) and (not-exists y when 2*(x,y))) or ... [equivalent form]
+- (not-exists y when 2*(x,y)) and (not-exists z when 2*(x,z)) -> (x) [EQVs not in effect]

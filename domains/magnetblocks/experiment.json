@@ -1,0 +1,39 @@
+{
+    "experiment_prefix": "magnetblocks",
+    "initial_domain": "./magnetblocks-initial.domain.pddl",
+    "gt_domain": "./magnetblocks2.domain.pddl",
+    "train_problems": [
+        "./problems/train"
+    ],
+    "eval_problems": [
+        "./problems/eval"
+    ],
+    "max_steps": 250,
+    "fixed_preconditions": true,
+    "approaches": {
+        "ohcam": {
+            "online": true,
+            "config": {
+                "noise": 0.001,
+                "allow_disjunctions": true,
+                "max_hypotheses": 10000,
+                "mc_horizon": 4,
+                "uqv_chain_only": false,
+                "max_uqvs": 3,
+                "uqv_chain_allow_empty": false,
+                "unidentifiable_effect_weight": 10
+            }
+        },
+        "random": {
+            "online": true
+        },
+        "olam": {
+            "online": true
+        },
+        "conditional-sam": {},
+        "predicators": {},
+        "lamp": {
+            "threshold": 0.5
+        }
+    }
+}
